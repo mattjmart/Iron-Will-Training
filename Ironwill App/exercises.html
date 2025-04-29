@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IronWill Workouts - Exercise Videos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+            background-color: #4A4A4A;
+            background-image: url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-attachment: fixed;
+            color: #F5F5DC;
+        }
+        h1, h2, h3 {
+            color: #F5F5DC;
+        }
+        .exercise-list {
+            margin-bottom: 20px;
+        }
+        .exercise-list a {
+            color: #F5F5DC;
+            text-decoration: underline;
+        }
+        .exercise-list a:hover {
+            color: #8B4513;
+        }
+        .month-section, .day-section {
+            margin-bottom: 30px;
+        }
+        .btn-back {
+            background-color: #8B4513;
+            border-color: #8B4513;
+            color: #F5F5DC;
+        }
+        .btn-back:hover {
+            background-color: #556B2F;
+            border-color: #556B2F;
+        }
+        @media (max-width: 576px) {
+            .exercise-list {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">IronWill Workouts - Exercise Videos</h1>
+        <a href="index.html" class="btn btn-back mb-4">Back to Workout Tracker</a>
+        <div id="exerciseVideos"></div>
+    </div>
+    <script>
+        // Exercise data (same as in app.js, but only for video links)
+        const exercises = {
+            month1: {
+                day1: [
+                    { name: "Flat Machine Chest Press", videoId: "s3G8G3u2B5c" },
+                    { name: "Machine Pec Fly", videoId: "iH1hBDZQyew" },
+                    { name: "DB Lateral Raise", videoId: "3VcKaXpzqRo" },
+                    { name: "Tricep Pushdown", videoId: "0dggM7HY8iI" },
+                    { name: "Skull Crusher", videoId: "d_KZxkY_0LE" },
+                    { name: "Decline Knee Raises (Optional)", videoId: "iP2fjvGsfuY" }
+                ],
+                day2: [
+                    { name: "Neutral Grip Lat Pulldown", videoId: "placeholder2" },
+                    { name: "T-Bar Row", videoId: "placeholder3" },
+                    { name: "Machine Rear Delt Fly", videoId: "placeholder4" },
+                    { name: "Face Away Cable Curls", videoId: "placeholder5" },
+                    { name: "Rope Hammer Curl", videoId: "placeholder6" },
+                    { name: "Hanging Leg/Knee Raises (Optional)", videoId: "placeholder7" }
+                ],
+                day3: [
+                    { name: "Smith Squat", videoId: "placeholder8" },
+                    { name: "Vertical Quad Focus Leg Press", videoId: "placeholder9" },
+                    { name: "Leg Extensions", videoId: "placeholder10" },
+                    { name: "Romanian Deadlift", videoId: "placeholder11" },
+                    { name: "Bent Leg Calf Raise", videoId: "placeholder12" }
+                ],
+                day4: [
+                    { name: "Seated Hamstring Curl", videoId: "placeholder13" },
+                    { name: "Romanian Deadlift", videoId: "placeholder11" },
+                    { name: "Bent Leg Calf Raise", videoId: "placeholder12" },
+                    { name: "Hanging Leg/Knee Raises (Optional)", videoId: "placeholder7" },
+                    { name: "Decline Knee Raises (Optional)", videoId: "EfGhIjKlMnO" }
+                ]
+            },
+            month2: {
+                day1: [
+                    { name: "Incline DB Press", videoId: "placeholder14" },
+                    { name: "Cable Chest Fly", videoId: "placeholder15" },
+                    { name: "DB Lateral Raise", videoId: "xYzAbCdEfGh" },
+                    { name: "Tricep Pushdown", videoId: "iJkLmNoPqRs" },
+                    { name: "Overhead Tricep Extension", videoId: "placeholder16" },
+                    { name: "Hanging Leg Raises (Optional)", videoId: "placeholder7" }
+                ],
+                day2: [
+                    { name: "Wide Grip Lat Pulldown", videoId: "placeholder17" },
+                    { name: "Barbell Bent-Over Row", videoId: "placeholder18" },
+                    { name: "Cable Rear Delt Fly", videoId: "placeholder19" },
+                    { name: "Cable Curls", videoId: "placeholder20" },
+                    { name: "Incline DB Curl", videoId: "placeholder21" },
+                    { name: "Decline Knee Raises (Optional)", videoId: "EfGhIjKlMnO" }
+                ],
+                day3: [
+                    { name: "Barbell Back Squat", videoId: "placeholder22" },
+                    { name: "Hack Squat", videoId: "placeholder23" },
+                    { name: "Walking Lunges", videoId: "placeholder24" },
+                    { name: "Barbell Romanian Deadlift", videoId: "placeholder11" },
+                    { name: "Standing Calf Raise", videoId: "placeholder25" }
+                ],
+                day4: [
+                    { name: "Lying Hamstring Curl", videoId: "placeholder26" },
+                    { name: "Barbell Hip Thrust", videoId: "placeholder27" },
+                    { name: "Single-Leg Romanian Deadlift", videoId: "placeholder28" },
+                    { name: "Standing Calf Raise", videoId: "placeholder25" },
+                    { name: "Hanging Leg Raises", videoId: "placeholder7" },
+                    { name: "Decline Knee Raises", videoId: "EfGhIjKlMnO" }
+                ]
+            },
+            month3: {
+                day1: [
+                    { name: "Incline Barbell Press", videoId: "placeholder29" },
+                    { name: "Dumbbell Chest Fly", videoId: "placeholder30" },
+                    { name: "Seated DB Shoulder Press", videoId: "placeholder31" },
+                    { name: "Tricep Dips (Machine or Bench)", videoId: "placeholder32" },
+                    { name: "Cable Overhead Tricep Extension", videoId: "placeholder16" },
+                    { name: "Plank with Shoulder Taps (Optional)", videoId: "placeholder33" }
+                ],
+                day2: [
+                    { name: "Close Grip Lat Pulldown", videoId: "placeholder34" },
+                    { name: "Dumbbell Row (Single Arm)", videoId: "placeholder35" },
+                    { name: "Face Pull (Cable)", videoId: "placeholder36" },
+                    { name: "EZ Bar Curl", videoId: "placeholder37" },
+                    { name: "Concentration Curl", videoId: "placeholder38" },
+                    { name: "Plank with Shoulder Taps (Optional)", videoId: "placeholder33" }
+                ],
+                day3: [
+                    { name: "Front Squat", videoId: "placeholder39" },
+                    { name: "Leg Press (Feet High)", videoId: "placeholder40" },
+                    { name: "Goblet Squat", videoId: "placeholder41" },
+                    { name: "Dumbbell Romanian Deadlift", videoId: "placeholder11" },
+                    { name: "Seated Calf Raise", videoId: "placeholder42" }
+                ],
+                day4: [
+                    { name: "Lying Hamstring Curl", videoId: "placeholder26" },
+                    { name: "Barbell Hip Thrust", videoId: "placeholder27" },
+                    { name: "Single-Leg Glute Bridge", videoId: "placeholder43" },
+                    { name: "Seated Calf Raise", videoId: "placeholder42" },
+                    { name: "Plank with Shoulder Taps", videoId: "placeholder33" },
+                    { name: "Russian Twists (Weighted)", videoId: "placeholder44" }
+                ]
+            }
+        };
+
+        // Day names for display
+        const dayNames = {
+            day1: "Day 1: Push",
+            day2: "Day 2: Pull",
+            day3: "Day 3: Legs (Quads/Glutes)",
+            day4: "Day 4: Legs (Hamstrings/Glutes)"
+        };
+
+        // Render the exercise list with video links
+        function renderExerciseVideos() {
+            const exerciseVideosDiv = document.getElementById("exerciseVideos");
+            let html = "";
+
+            Object.keys(exercises).forEach(month => {
+                const monthNum = month.replace("month", "Month ");
+                html += `<div class="month-section"><h2>${monthNum}</h2>`;
+
+                Object.keys(exercises[month]).forEach(day => {
+                    html += `<div class="day-section"><h3>${dayNames[day]}</h3>`;
+                    html += '<ul class="exercise-list">';
+                    exercises[month][day].forEach(exercise => {
+                        html += `<li><a href="https://www.youtube.com/watch?v=${exercise.videoId}" target="_blank">${exercise.name}</a></li>`;
+                    });
+                    html += '</ul></div>';
+                });
+
+                html += '</div>';
+            });
+
+            exerciseVideosDiv.innerHTML = html;
+        }
+
+        // Call the function on page load
+        window.onload = renderExerciseVideos;
+    </script>
+</body>
+</html>
